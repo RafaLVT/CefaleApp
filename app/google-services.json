@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "762418428764",
+    "project_id": "cefaleapp-b0b0b",
+    "storage_bucket": "cefaleapp-b0b0b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:762418428764:android:d4f9125a88fc148a85df99",
+        "android_client_info": {
+          "package_name": "com.gsti.cefaleapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYGnCGW971tfvH0d3EQIS4jjHVRyU-dt4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
