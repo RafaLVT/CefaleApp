@@ -18,7 +18,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.gsti.cefaleapp.navigation.AppNav
 import com.gsti.cefaleapp.ui.theme.CefaleAppTheme
+import com.gsti.cefaleapp.navigation.AppNav
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +29,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CefaleAppTheme {
-                HomePacienteScreen()
+                AppNav()
+
             }
         }
     }
@@ -34,7 +38,13 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomePacienteScreen() {
+fun HomePacienteScreen(
+    goEpisodio: () -> Unit,
+    goCalendario: () -> Unit,
+    goMedicacion: () -> Unit,
+    goCitas: () -> Unit,
+    goChat: () -> Unit
+) {
     Scaffold(
         topBar = { TopAppBar(title = { Text("CefaleApp - Paciente") }) }
     ) { padding ->
@@ -46,11 +56,12 @@ fun HomePacienteScreen() {
             verticalArrangement = Arrangement.spacedBy(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { }) { Text("Registrar episodio") }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { }) { Text("Calendario") }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { }) { Text("Medicación") }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { }) { Text("Citas") }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = { }) { Text("Chat") }
+            Button(modifier = Modifier.fillMaxWidth(), onClick = goEpisodio) { Text("Registrar episodio") }
+            Button(modifier = Modifier.fillMaxWidth(), onClick = goCalendario) { Text("Calendario") }
+            Button(modifier = Modifier.fillMaxWidth(), onClick = goMedicacion) { Text("Medicación") }
+            Button(modifier = Modifier.fillMaxWidth(), onClick = goCitas) { Text("Citas") }
+            Button(modifier = Modifier.fillMaxWidth(), onClick = goChat) { Text("Chat") }
         }
     }
 }
+
