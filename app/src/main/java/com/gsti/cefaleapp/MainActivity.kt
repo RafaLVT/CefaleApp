@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gsti.cefaleapp.navigation.AppNav
 import com.gsti.cefaleapp.ui.theme.CefaleAppTheme
-import com.gsti.cefaleapp.navigation.AppNav
+import com.google.firebase.auth.FirebaseAuth
 
 
 class MainActivity : ComponentActivity() {
