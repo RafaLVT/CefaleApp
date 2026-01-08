@@ -1,5 +1,10 @@
 package com.gsti.cefaleapp.ui.paciente
 
+import androidx.navigation.NavController
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -40,8 +45,9 @@ import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EpisodioScreen() {
+fun EpisodioScreen(navController: NavController) {
     val context = LocalContext.current
+    val pacienteId = "demo_paciente"
     val db = Firebase.firestore
 
     // ✅ Fecha compatible con minSdk 24
@@ -63,7 +69,19 @@ fun EpisodioScreen() {
     val guardando = remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Registrar episodio") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("Registrar episodio") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Volver"
+                        )
+                    }
+                }
+            )
+        }
     ) { padding ->
         Column(
             modifier = Modifier
@@ -200,8 +218,9 @@ fun EpisodioScreen() {
                         "tomoMedicacion" to tomoMedicacion.value,
                         "alivio" to alivio.value,
                         "redFlag" to redFlag.value,
-                        "nota" to nota.value.trim()
-                    )
+                        "nota" to nota.value.trim(),
+                        "pacienteId" to pacienteId,
+                        )
 
                     db.collection("episodios")
                         .add(data)

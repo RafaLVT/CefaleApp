@@ -60,6 +60,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("androidx.compose.material:material-icons-extended")
 
 
     // ✅ Navigation Compose (para que los botones naveguen a pantallas)

@@ -14,7 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun AppNav() {
-    val nav = rememberNavController()
+    val navController = rememberNavController()
 
     NavHost(
         navController = nav,
@@ -47,7 +47,7 @@ fun AppNav() {
                         val role = it.getString("role")
                         if (role == "medico") {
                             nav.navigate(Routes.HOME_MEDICO)
-                        } else {
+                        } else if (role == "paciente") {
                             nav.navigate(Routes.HOME_PACIENTE)
                         }
                     }
@@ -61,7 +61,7 @@ fun AppNav() {
                 goCalendario = { nav.navigate(Routes.CALENDARIO) },
                 goMedicacion = { nav.navigate(Routes.MEDICACION) },
                 goCitas = { nav.navigate(Routes.CITAS) },
-                goChat = { nav.navigate(Routes.CHAT) },
+                goChat = { nav.navigate(Routes.CHAT) }
             )
         }
 
@@ -77,3 +77,4 @@ fun AppNav() {
         }
     }
 }
+
