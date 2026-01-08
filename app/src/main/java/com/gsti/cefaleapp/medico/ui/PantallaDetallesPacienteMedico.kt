@@ -1,4 +1,4 @@
-package com.gsti.cefaleapp.medico
+package com.gsti.cefaleapp.medico.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
