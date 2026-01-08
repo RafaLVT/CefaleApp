@@ -9,33 +9,49 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun PantallaDetallesPacienteMedico(
-    onChatMedicoClick: () -> Unit
+    onCalendarioClick: () -> Unit,
+    onChatClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(24.dp)
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
 
-        Text("Detalle del paciente", fontSize = 24.sp)
+        Text(
+            text = "Paciente: Juan Pérez",
+            fontSize = 22.sp
+        )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Divider()
 
         Text("Diagnóstico actual")
-        Text("Medicamentos")
+        Text("Migraña crónica")
+
+        Text("Medicamentos asignados")
+        Text("• Ibuprofeno\n• Triptanes")
+
         Text("Antecedentes")
+        Text("Historial de cefaleas desde 2021")
+
         Text("Informe de consulta")
+        Text("Última revisión sin cambios significativos")
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Divider()
 
-        Button(onClick = { }) {
-            Text("Calendario de dolor")
+        Button(
+            onClick = onCalendarioClick,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Ver calendario de dolor")
         }
 
         Button(
-            onClick = onChatMedicoClick
+            onClick = onChatClick,
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Chat con paciente")
+            Text("Abrir chat con paciente")
         }
     }
 }
