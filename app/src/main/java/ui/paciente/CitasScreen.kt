@@ -1,5 +1,10 @@
 package com.gsti.cefaleapp.ui.paciente
 
+import androidx.navigation.NavController
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -60,7 +65,7 @@ private fun hoyYyyyMmDd(): String =
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CitasScreen() {
+fun CitasScreen(navController: NavController) {
     val context = LocalContext.current
     val db = Firebase.firestore
 
@@ -132,7 +137,20 @@ fun CitasScreen() {
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Citas") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("CITAS") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Volver"
+                        )
+                    }
+                }
+            )
+        }
+
     ) { padding ->
         Column(
             modifier = Modifier

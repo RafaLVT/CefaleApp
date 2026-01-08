@@ -9,22 +9,26 @@ import com.gsti.cefaleapp.ui.paciente.*
 
 @Composable
 fun AppNav() {
-    val nav = rememberNavController()
+    val navController = rememberNavController()
 
-    NavHost(navController = nav, startDestination = Routes.HOME_PACIENTE) {
+    NavHost(navController = navController, startDestination = Routes.HOME_PACIENTE) {
+
         composable(Routes.HOME_PACIENTE) {
             HomePacienteScreen(
-                goEpisodio = { nav.navigate(Routes.EPISODIO) },
-                goCalendario = { nav.navigate(Routes.CALENDARIO) },
-                goMedicacion = { nav.navigate(Routes.MEDICACION) },
-                goCitas = { nav.navigate(Routes.CITAS) },
-                goChat = { nav.navigate(Routes.CHAT) },
+                goEpisodio = { navController.navigate(Routes.EPISODIO) },
+                goCalendario = { navController.navigate(Routes.CALENDARIO) },
+                goMedicacion = { navController.navigate(Routes.MEDICACION) },
+                goCitas = { navController.navigate(Routes.CITAS) },
+                goChat = { navController.navigate(Routes.CHAT) }
             )
         }
-        composable(Routes.EPISODIO) { EpisodioScreen() }
-        composable(Routes.CALENDARIO) { CalendarioScreen() }
-        composable(Routes.MEDICACION) { MedicacionScreen() }
-        composable(Routes.CITAS) { CitasScreen() }
-        composable(Routes.CHAT) { ChatScreen() }
+
+        composable(Routes.EPISODIO) { EpisodioScreen(navController) }
+        composable(Routes.CALENDARIO) { CalendarioScreen(navController) }
+        composable(Routes.MEDICACION) { MedicacionScreen(navController) }
+        composable(Routes.CITAS) { CitasScreen(navController) }
+        composable(Routes.CHAT) { ChatScreen(navController) }
+
     }
 }
+

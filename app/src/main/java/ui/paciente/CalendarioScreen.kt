@@ -1,5 +1,10 @@
 package com.gsti.cefaleapp.ui.paciente
 
+import androidx.navigation.NavController
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -92,8 +97,9 @@ private fun desplazarFecha(fecha: String, dias: Int): String {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CalendarioScreen() {
+fun CalendarioScreen(navController: NavController) {
     val db = Firebase.firestore
+    val pacienteId = "demo_paciente"
 
     var fechaSeleccionada by remember { mutableStateOf(hoyYyyyMmDd()) }
     var verTodos by remember { mutableStateOf(false) }
@@ -109,12 +115,12 @@ fun CalendarioScreen() {
 
         val query = if (verTodos) {
             db.collection("episodios")
-                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .whereEqualTo("pacienteId", pacienteId)
                 .limit(50)
         } else {
             db.collection("episodios")
+                .whereEqualTo("pacienteId", pacienteId)
                 .whereEqualTo("fecha", fechaSeleccionada)
-                .orderBy("createdAt", Query.Direction.DESCENDING)
         }
 
         val reg = query.addSnapshotListener { snap, e ->
@@ -125,6 +131,7 @@ fun CalendarioScreen() {
             }
             val docs = snap?.documents ?: emptyList()
             episodios = docs.map { it.toEpisodioUi() }
+                .sortedByDescending { it.createdAt?.seconds ?: 0L }
             cargando = false
         }
 
@@ -132,7 +139,20 @@ fun CalendarioScreen() {
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Calendario") }) }
+        topBar = {
+            TopAppBar(
+                title = { Text("CALENDARIO") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Volver"
+                        )
+                    }
+                }
+            )
+        }
+
     ) { padding ->
         Column(
             modifier = Modifier
