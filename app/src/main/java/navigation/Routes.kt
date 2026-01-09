@@ -13,4 +13,9 @@ object Routes {
     const val MEDICACION = "medicacion"
     const val CITAS = "citas"
     const val CHAT = "chat"
+
+    const val PACIENTES_MEDICO = "pacientes_medico"
+    const val ASIGNAR_PACIENTE = "asignar_paciente"
+
+    const val ESPERA_ASIGNACION = "espera_asignacion"
 }

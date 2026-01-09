@@ -74,14 +74,26 @@ fun RegisterScreen(
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener { result ->
                         val uid = result.user!!.uid
-                        db.collection("users").document(uid).set(
+                        val userData = if (role == "paciente") {
                             mapOf(
                                 "email" to email,
-                                "role" to role
+                                "role" to "paciente",
+                                "medicoId" to null
                             )
-                        ).addOnSuccessListener {
-                            onRegisterSuccess()
+                        } else {
+                            mapOf(
+                                "email" to email,
+                                "role" to "medico"
+                            )
                         }
+
+                        db.collection("users")
+                            .document(uid)
+                            .set(userData)
+                            .addOnSuccessListener {
+                                onRegisterSuccess()
+                            }
+
                     }
                     .addOnFailureListener { error = it.message }
             }

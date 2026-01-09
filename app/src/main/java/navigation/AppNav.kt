@@ -2,6 +2,8 @@ package com.gsti.cefaleapp.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -11,6 +13,13 @@ import com.gsti.cefaleapp.auth.RegisterScreen
 import com.gsti.cefaleapp.ui.paciente.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.gsti.cefaleapp.medico.ui.PantallaPacientesMedico
+import com.gsti.cefaleapp.medico.ui.PantallaPrincipalMedico
+import com.gsti.cefaleapp.medico.viewmodel.PacientesViewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.gsti.cefaleapp.medico.ui.PantallaAsignarPaciente
+
 
 @Composable
 fun AppNav() {
@@ -43,16 +52,31 @@ fun AppNav() {
 
             LaunchedEffect(uid) {
                 db.collection("users").document(uid).get()
-                    .addOnSuccessListener {
-                        val role = it.getString("role")
-                        if (role == "medico") {
-                            navController.navigate(Routes.HOME_MEDICO)
-                        } else if (role == "paciente") {
-                            navController.navigate(Routes.HOME_PACIENTE)
+                    .addOnSuccessListener { doc ->
+                        val role = doc.getString("role")
+                        val medicoId = doc.getString("medicoId")
+
+                        when {
+                            role == "medico" -> {
+                                navController.navigate(Routes.HOME_MEDICO)
+                            }
+
+                            role == "paciente" && medicoId != null -> {
+                                navController.navigate(Routes.HOME_PACIENTE)
+                            }
+
+                            role == "paciente" && medicoId == null -> {
+                                navController.navigate(Routes.ESPERA_ASIGNACION)
+                            }
                         }
                     }
             }
         }
+
+        composable(Routes.ESPERA_ASIGNACION) {
+            EsperaAsignacionScreen()
+        }
+
 
         // 👤 HOME PACIENTE (LO QUE YA TENÍAS)
         composable(Routes.HOME_PACIENTE) {
@@ -73,8 +97,48 @@ fun AppNav() {
 
         // 👨‍⚕️ HOME MÉDICO (placeholder por ahora)
         composable(Routes.HOME_MEDICO) {
-            // aquí luego pondremos PantallaPrincipalMedico()
+            PantallaPrincipalMedico(
+                onPacientesClick = {
+                    navController.navigate(Routes.PACIENTES_MEDICO)
+                },
+                onCitasClick = {
+                    // navController.navigate(Routes.CITAS_MEDICO) (más adelante)
+                }
+            )
         }
+        composable(Routes.PACIENTES_MEDICO) {
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+            val viewModel = remember { PacientesViewModel() }
+            val pacientes by viewModel.pacientesAsignados.collectAsState()
+
+            LaunchedEffect(Unit) {
+                viewModel.cargarPacientesAsignados(medicoId)
+            }
+
+            PantallaPacientesMedico(
+                pacientes = pacientes,
+                onAsignarPacienteClick = {
+                    navController.navigate(Routes.ASIGNAR_PACIENTE)
+                },
+                onPacienteClick = { pacienteId ->
+                    // siguiente paso: detalle paciente
+                }
+            )
+        }
+        composable(Routes.ASIGNAR_PACIENTE) {
+            val viewModel = remember { PacientesViewModel() }
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+
+            PantallaAsignarPaciente(
+                viewModel = viewModel,
+                medicoId = medicoId,
+                onPacienteAsignado = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+
     }
 }
 
