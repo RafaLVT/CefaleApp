@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -62,7 +63,7 @@ fun ChatScreen(navController: NavController) {
     val db = Firebase.firestore
 
     // ✅ DEMO: luego lo cambiaréis por uid real + medico asignado
-    val pacienteId = "demo_paciente"
+    val pacienteId = FirebaseAuth.getInstance().currentUser?.uid
     val medicoId = "demo_medico"
     val chatId = "${medicoId}_$pacienteId"
 

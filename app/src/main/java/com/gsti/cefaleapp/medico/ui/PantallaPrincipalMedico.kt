@@ -10,8 +10,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun PantallaPrincipalMedico(
-    onPatientsClick: () -> Unit,
-    onAppointmentsClick: () -> Unit
+    onPacientesClick: () -> Unit,
+    onCitasClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -28,7 +28,7 @@ fun PantallaPrincipalMedico(
         )
 
         Button(
-            onClick = onPatientsClick,
+            onClick = onPacientesClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Pacientes")
@@ -37,7 +37,7 @@ fun PantallaPrincipalMedico(
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = onAppointmentsClick,
+            onClick = onCitasClick,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text("Citas")

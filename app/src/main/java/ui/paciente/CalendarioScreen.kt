@@ -33,6 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -99,7 +100,7 @@ private fun desplazarFecha(fecha: String, dias: Int): String {
 @Composable
 fun CalendarioScreen(navController: NavController) {
     val db = Firebase.firestore
-    val pacienteId = "demo_paciente"
+    val pacienteId = FirebaseAuth.getInstance().currentUser?.uid
 
     var fechaSeleccionada by remember { mutableStateOf(hoyYyyyMmDd()) }
     var verTodos by remember { mutableStateOf(false) }
