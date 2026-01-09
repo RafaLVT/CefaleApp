@@ -37,17 +37,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EpisodioScreen(navController: NavController) {
     val context = LocalContext.current
-    val pacienteId = "demo_paciente"
+    val pacienteId = FirebaseAuth.getInstance().currentUser?.uid
     val db = Firebase.firestore
 
     // ✅ Fecha compatible con minSdk 24
@@ -206,6 +209,11 @@ fun EpisodioScreen(navController: NavController) {
                         Toast.makeText(context, "Duración inválida (usa números)", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
+                    if (pacienteId == null) {
+                        Toast.makeText(context, "Error: usuario no autenticado", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
 
                     guardando.value = true
 

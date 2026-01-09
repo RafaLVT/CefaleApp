@@ -17,22 +17,22 @@ fun AppNav() {
     val navController = rememberNavController()
 
     NavHost(
-        navController = nav,
+        navController = navController,
         startDestination = Routes.LOGIN
     ) {
 
         // 🔐 LOGIN
         composable(Routes.LOGIN) {
             LoginScreen(
-                onLoginSuccess = { nav.navigate(Routes.DECIDE_HOME) },
-                onGoRegister = { nav.navigate(Routes.REGISTER) }
+                onLoginSuccess = { navController.navigate(Routes.DECIDE_HOME) },
+                onGoRegister = { navController.navigate(Routes.REGISTER) }
             )
         }
 
         // 📝 REGISTER
         composable(Routes.REGISTER) {
             RegisterScreen(
-                onRegisterSuccess = { nav.navigate(Routes.DECIDE_HOME) }
+                onRegisterSuccess = { navController.navigate(Routes.DECIDE_HOME) }
             )
         }
 
@@ -46,9 +46,9 @@ fun AppNav() {
                     .addOnSuccessListener {
                         val role = it.getString("role")
                         if (role == "medico") {
-                            nav.navigate(Routes.HOME_MEDICO)
+                            navController.navigate(Routes.HOME_MEDICO)
                         } else if (role == "paciente") {
-                            nav.navigate(Routes.HOME_PACIENTE)
+                            navController.navigate(Routes.HOME_PACIENTE)
                         }
                     }
             }
@@ -57,19 +57,19 @@ fun AppNav() {
         // 👤 HOME PACIENTE (LO QUE YA TENÍAS)
         composable(Routes.HOME_PACIENTE) {
             HomePacienteScreen(
-                goEpisodio = { nav.navigate(Routes.EPISODIO) },
-                goCalendario = { nav.navigate(Routes.CALENDARIO) },
-                goMedicacion = { nav.navigate(Routes.MEDICACION) },
-                goCitas = { nav.navigate(Routes.CITAS) },
-                goChat = { nav.navigate(Routes.CHAT) }
+                goEpisodio = { navController.navigate(Routes.EPISODIO) },
+                goCalendario = { navController.navigate(Routes.CALENDARIO) },
+                goMedicacion = { navController.navigate(Routes.MEDICACION) },
+                goCitas = { navController.navigate(Routes.CITAS) },
+                goChat = { navController.navigate(Routes.CHAT) }
             )
         }
 
-        composable(Routes.EPISODIO) { EpisodioScreen() }
-        composable(Routes.CALENDARIO) { CalendarioScreen() }
-        composable(Routes.MEDICACION) { MedicacionScreen() }
-        composable(Routes.CITAS) { CitasScreen() }
-        composable(Routes.CHAT) { ChatScreen() }
+        composable(Routes.EPISODIO) { EpisodioScreen(navController) }
+        composable(Routes.CALENDARIO) { CalendarioScreen(navController) }
+        composable(Routes.MEDICACION) { MedicacionScreen(navController) }
+        composable(Routes.CITAS) { CitasScreen(navController) }
+        composable(Routes.CHAT) { ChatScreen(navController) }
 
         // 👨‍⚕️ HOME MÉDICO (placeholder por ahora)
         composable(Routes.HOME_MEDICO) {
