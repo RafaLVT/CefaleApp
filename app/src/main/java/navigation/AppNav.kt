@@ -141,7 +141,6 @@ fun AppNav() {
                     navController.navigate("${Routes.FORMULARIO_PACIENTE_MEDICO}/$id")
                 },
                 onAntecedentesClick = { /* más adelante */ },
-                onInformeClick = { /* más adelante */ },
                 onCalendarioClick = { /* más adelante */ },
                 onChatClick = { /* más adelante */ }
             )

@@ -15,7 +15,6 @@ fun PantallaDetallesPacienteMedico(
     pacienteId: String,
     onEditarFormularioClick: (String) -> Unit,
     onAntecedentesClick: (String) -> Unit,
-    onInformeClick: (String) -> Unit,
     onCalendarioClick: (String) -> Unit,
     onChatClick: (String) -> Unit,
     viewModel: PacienteDetalleViewModel = viewModel()
@@ -82,12 +81,6 @@ fun PantallaDetallesPacienteMedico(
                     Text("Antecedentes del paciente")
                 }
 
-                Button(
-                    onClick = { onInformeClick(pacienteId) },
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Text("Informe de consulta")
-                }
 
                 Button(
                     onClick = { onCalendarioClick(pacienteId) },
