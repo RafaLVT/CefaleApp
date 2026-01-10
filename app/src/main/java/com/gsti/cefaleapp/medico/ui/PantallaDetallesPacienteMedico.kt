@@ -2,56 +2,107 @@ package com.gsti.cefaleapp.medico.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.gsti.cefaleapp.medico.viewmodel.PacienteDetalleViewModel
 
 @Composable
 fun PantallaDetallesPacienteMedico(
-    onCalendarioClick: () -> Unit,
-    onChatClick: () -> Unit
+    pacienteId: String,
+    onEditarFormularioClick: (String) -> Unit,
+    onAntecedentesClick: (String) -> Unit,
+    onInformeClick: (String) -> Unit,
+    onCalendarioClick: (String) -> Unit,
+    onChatClick: (String) -> Unit,
+    viewModel: PacienteDetalleViewModel = viewModel()
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    val state by viewModel.uiState.collectAsState()
 
-        Text(
-            text = "Paciente: Juan Pérez",
-            fontSize = 22.sp
-        )
+    LaunchedEffect(pacienteId) {
+        viewModel.cargarPaciente(pacienteId)
+    }
 
-        Divider()
-
-        Text("Diagnóstico actual")
-        Text("Migraña crónica")
-
-        Text("Medicamentos asignados")
-        Text("• Ibuprofeno\n• Triptanes")
-
-        Text("Antecedentes")
-        Text("Historial de cefaleas desde 2021")
-
-        Text("Informe de consulta")
-        Text("Última revisión sin cambios significativos")
-
-        Divider()
-
-        Button(
-            onClick = onCalendarioClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Ver calendario de dolor")
+    when {
+        state.isLoading -> {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator()
+            }
         }
 
-        Button(
-            onClick = onChatClick,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Abrir chat con paciente")
+        state.error != null -> {
+            Text(
+                text = state.error!!,
+                modifier = Modifier.padding(24.dp)
+            )
+        }
+
+        else -> {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+
+                Text(
+                    text = "Paciente: ${state.email}",
+                    fontSize = 22.sp
+                )
+
+                Divider()
+
+                Text("Diagnóstico actual", style = MaterialTheme.typography.titleMedium)
+                Text(state.diagnostico.ifBlank { "No definido" })
+
+                Text("Medicación actual", style = MaterialTheme.typography.titleMedium)
+                Text(state.medicacion.ifBlank { "No definida" })
+
+                Divider()
+
+                Button(
+                    onClick = { onEditarFormularioClick(pacienteId) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Editar formulario")
+                }
+
+                Divider()
+
+                Button(
+                    onClick = { onAntecedentesClick(pacienteId) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Antecedentes del paciente")
+                }
+
+                Button(
+                    onClick = { onInformeClick(pacienteId) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Informe de consulta")
+                }
+
+                Button(
+                    onClick = { onCalendarioClick(pacienteId) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Calendario de dolor")
+                }
+
+                Button(
+                    onClick = { onChatClick(pacienteId) },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Chat con el paciente")
+                }
+            }
         }
     }
 }

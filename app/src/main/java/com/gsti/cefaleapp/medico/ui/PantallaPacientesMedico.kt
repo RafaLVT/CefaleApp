@@ -47,17 +47,37 @@ fun PantallaPacientesMedico(
         } else {
             Column {
                 pacientes.forEach { paciente ->
-                    Text(
-                        text = paciente.email,
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
                                 onPacienteClick(paciente.id)
                             }
                             .padding(12.dp)
-                    )
+                    ) {
+
+                        Text(
+                            text = paciente.email,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "Diagnóstico: ${paciente.diagnostico.ifBlank { "No definido" }}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+
+                        Text(
+                            text = "Medicación: ${paciente.medicacion.ifBlank { "No definida" }}",
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    }
+
+                    HorizontalDivider()
                 }
             }
+
         }
     }
 }
