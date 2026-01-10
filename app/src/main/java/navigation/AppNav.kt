@@ -19,6 +19,8 @@ import com.gsti.cefaleapp.medico.viewmodel.PacientesViewModel
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import com.gsti.cefaleapp.medico.ui.PantallaAsignarPaciente
+import com.gsti.cefaleapp.medico.ui.PantallaDetallesPacienteMedico
+import com.gsti.cefaleapp.medico.ui.PantallaFormularioPacienteMedico
 
 
 @Composable
@@ -121,10 +123,50 @@ fun AppNav() {
                     navController.navigate(Routes.ASIGNAR_PACIENTE)
                 },
                 onPacienteClick = { pacienteId ->
-                    // siguiente paso: detalle paciente
+                    navController.navigate("${Routes.DETALLE_PACIENTE_MEDICO}/$pacienteId")
                 }
             )
         }
+
+        composable(
+            route = "${Routes.DETALLE_PACIENTE_MEDICO}/{pacienteId}"
+        ) { backStackEntry ->
+
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")
+                ?: return@composable
+
+            PantallaDetallesPacienteMedico(
+                pacienteId = pacienteId,
+                onEditarFormularioClick = { id ->
+                    navController.navigate("${Routes.FORMULARIO_PACIENTE_MEDICO}/$id")
+                },
+                onAntecedentesClick = { /* más adelante */ },
+                onInformeClick = { /* más adelante */ },
+                onCalendarioClick = { /* más adelante */ },
+                onChatClick = { /* más adelante */ }
+            )
+        }
+
+        composable(
+            route = "${Routes.FORMULARIO_PACIENTE_MEDICO}/{pacienteId}"
+        ) { backStackEntry ->
+
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")
+                ?: return@composable
+
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+
+            PantallaFormularioPacienteMedico(
+                pacienteId = pacienteId,
+                medicoId = medicoId,
+                onFormularioGuardado = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+
+
         composable(Routes.ASIGNAR_PACIENTE) {
             val viewModel = remember { PacientesViewModel() }
             val medicoId = FirebaseAuth.getInstance().currentUser!!.uid

@@ -32,7 +32,9 @@ class PacientesViewModel : ViewModel() {
                     Paciente(
                         id = it.id,
                         email = it.getString("email") ?: "",
-                        medicoId = null
+                        medicoId = null,
+                        diagnostico = it.getString("diagnostico") ?: "",
+                        medicacion = it.getString("medicacion") ?: ""
                     )
                 }
             }
@@ -48,7 +50,9 @@ class PacientesViewModel : ViewModel() {
                     Paciente(
                         id = it.id,
                         email = it.getString("email") ?: "",
-                        medicoId = medicoId
+                        medicoId = medicoId,
+                        diagnostico = it.getString("diagnostico") ?: "",
+                        medicacion = it.getString("medicacion") ?: ""
                     )
                 }
             }

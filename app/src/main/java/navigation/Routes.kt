@@ -17,5 +17,10 @@ object Routes {
     const val PACIENTES_MEDICO = "pacientes_medico"
     const val ASIGNAR_PACIENTE = "asignar_paciente"
 
+    const val DETALLE_PACIENTE_MEDICO = "detalle_paciente_medico"
+
+    const val FORMULARIO_PACIENTE_MEDICO = "formulario_paciente_medico"
+
+
     const val ESPERA_ASIGNACION = "espera_asignacion"
 }
