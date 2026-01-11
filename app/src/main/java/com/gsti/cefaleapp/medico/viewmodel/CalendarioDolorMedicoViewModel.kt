@@ -34,9 +34,19 @@ class CalendarioDolorMedicoViewModel : ViewModel() {
             }
     }
 
-    fun guardarComentarioMedico(episodioId: String, comentario: String) {
+    fun guardarComentarioMedico(
+        episodioId: String,
+        comentario: String,
+        pacienteId: String,
+        onFinish: () -> Unit
+    ) {
         db.collection("episodios")
             .document(episodioId)
             .update("comentarioMedico", comentario)
+            .addOnSuccessListener {
+                cargarEpisodiosPaciente(pacienteId)
+                onFinish()
+            }
     }
+
 }

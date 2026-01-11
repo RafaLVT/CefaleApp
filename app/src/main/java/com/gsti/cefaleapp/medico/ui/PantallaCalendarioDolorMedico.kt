@@ -132,8 +132,15 @@ fun PantallaCalendarioDolorMedico(
         DialogoEpisodioMedico(
             episodio = it,
             onGuardarComentario = { comentario ->
-                viewModel.guardarComentarioMedico(it.id, comentario)
+                viewModel.guardarComentarioMedico(
+                    episodioId = it.id,
+                    comentario = comentario,
+                    pacienteId = pacienteId
+                ) {
+                    episodioSeleccionado = null
+                }
             },
+
             onCerrar = { episodioSeleccionado = null }
         )
     }
