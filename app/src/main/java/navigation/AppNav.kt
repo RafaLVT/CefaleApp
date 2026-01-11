@@ -1,5 +1,6 @@
 package com.gsti.cefaleapp.navigation
 
+import ChatScreen
 import PantallaCitasMedico
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,7 +24,7 @@ import com.gsti.cefaleapp.medico.ui.PantallaAsignarPaciente
 import com.gsti.cefaleapp.medico.ui.PantallaDetallesPacienteMedico
 import com.gsti.cefaleapp.medico.ui.PantallaFormularioPacienteMedico
 import com.gsti.cefaleapp.medico.ui.PantallaCalendarioDolorMedico
-
+import com.gsti.cefaleapp.medico.ui.PantallaChatMedico
 
 
 @Composable
@@ -145,7 +146,9 @@ fun AppNav() {
                 onCalendarioClick = { id ->
                     navController.navigate("${Routes.CALENDARIO_DOLOR_MEDICO}/$id")
                 },
-                onChatClick = { /* más adelante */ }
+                onChatClick = { id ->
+                    navController.navigate("${Routes.CHAT_MEDICO}/$id")
+                }
             )
         }
 
@@ -200,6 +203,24 @@ fun AppNav() {
             val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
             PantallaCitasMedico(medicoId)
         }
+
+        composable("${Routes.CHAT_MEDICO}/{pacienteId}") { backStackEntry ->
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")
+                ?: return@composable
+
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+
+            PantallaChatMedico(
+                navController = navController,
+                medicoId = medicoId,
+                pacienteId = pacienteId
+            )
+        }
+
+
+
+
+
 
 
 

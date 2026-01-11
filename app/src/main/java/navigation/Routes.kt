@@ -27,5 +27,7 @@ object Routes {
 
     const val CITAS_MEDICO = "citas_medico"
 
+    const val CHAT_MEDICO = "chat_medico"
+
 
 }
