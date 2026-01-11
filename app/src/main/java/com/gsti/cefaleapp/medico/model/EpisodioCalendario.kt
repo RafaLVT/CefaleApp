@@ -8,6 +8,8 @@ data class EpisodioCalendario(
     val sintomas: List<String>,
     val tomoMedicacion: Boolean,
     val alivio: Boolean,
+    val medicamento: String?,
+    val dosis: String?,
     val nota: String,
     val comentarioMedico: String?
 )

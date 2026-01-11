@@ -10,7 +10,6 @@ object Routes {
     const val HOME_MEDICO = "home_medico"
     const val EPISODIO = "episodio"
     const val CALENDARIO = "calendario"
-    const val MEDICACION = "medicacion"
     const val CITAS = "citas"
     const val CHAT = "chat"
 

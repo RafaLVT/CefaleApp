@@ -41,7 +41,6 @@ class MainActivity : ComponentActivity() {
 fun HomePacienteScreen(
     goEpisodio: () -> Unit,
     goCalendario: () -> Unit,
-    goMedicacion: () -> Unit,
     goCitas: () -> Unit,
     goChat: () -> Unit
 ) {
@@ -58,7 +57,6 @@ fun HomePacienteScreen(
         ) {
             Button(modifier = Modifier.fillMaxWidth(), onClick = goEpisodio) { Text("Registrar episodio") }
             Button(modifier = Modifier.fillMaxWidth(), onClick = goCalendario) { Text("Calendario") }
-            Button(modifier = Modifier.fillMaxWidth(), onClick = goMedicacion) { Text("Medicación") }
             Button(modifier = Modifier.fillMaxWidth(), onClick = goCitas) { Text("Citas") }
             Button(modifier = Modifier.fillMaxWidth(), onClick = goChat) { Text("Chat") }
         }

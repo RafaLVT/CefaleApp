@@ -88,7 +88,6 @@ fun AppNav() {
             HomePacienteScreen(
                 goEpisodio = { navController.navigate(Routes.EPISODIO) },
                 goCalendario = { navController.navigate(Routes.CALENDARIO) },
-                goMedicacion = { navController.navigate(Routes.MEDICACION) },
                 goCitas = { navController.navigate(Routes.CITAS) },
                 goChat = { navController.navigate(Routes.CHAT) }
             )
@@ -96,7 +95,6 @@ fun AppNav() {
 
         composable(Routes.EPISODIO) { EpisodioScreen(navController) }
         composable(Routes.CALENDARIO) { CalendarioScreen(navController) }
-        composable(Routes.MEDICACION) { MedicacionScreen(navController) }
         composable(Routes.CITAS) { CitasScreen(navController) }
         composable(Routes.CHAT) { ChatScreen(navController) }
 

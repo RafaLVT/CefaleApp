@@ -71,6 +71,10 @@ fun EpisodioScreen(navController: NavController) {
 
     val guardando = remember { mutableStateOf(false) }
 
+    val medicamento = remember { mutableStateOf("") }
+    val dosis = remember { mutableStateOf("") }
+
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -162,6 +166,20 @@ fun EpisodioScreen(navController: NavController) {
             }
 
             if (tomoMedicacion.value) {
+                OutlinedTextField(
+                    value = medicamento.value,
+                    onValueChange = { medicamento.value = it },
+                    label = { Text("Medicamento") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
+                OutlinedTextField(
+                    value = dosis.value,
+                    onValueChange = { dosis.value = it },
+                    label = { Text("Dosis (ej: 400 mg)") },
+                    modifier = Modifier.fillMaxWidth()
+                )
+
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
@@ -225,6 +243,8 @@ fun EpisodioScreen(navController: NavController) {
                         "sintomas" to sintomasSeleccionados.value.toList(),
                         "tomoMedicacion" to tomoMedicacion.value,
                         "alivio" to alivio.value,
+                        "medicamento" to medicamento.value.takeIf { tomoMedicacion.value && it.isNotBlank() },
+                        "dosis" to dosis.value.takeIf { tomoMedicacion.value && it.isNotBlank() },
                         "redFlag" to redFlag.value,
                         "nota" to nota.value.trim(),
                         "pacienteId" to pacienteId,

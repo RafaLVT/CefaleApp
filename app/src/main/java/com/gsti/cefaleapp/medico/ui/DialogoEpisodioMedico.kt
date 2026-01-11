@@ -1,6 +1,8 @@
 package com.gsti.cefaleapp.medico.ui
 
 
+import android.R.attr.label
+import android.R.attr.minLines
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -53,17 +55,14 @@ fun DialogoEpisodioMedico(
                     Text("Síntomas: no especificados")
                 }
 
-                Text(
-                    text = "Tomó medicación: ${
-                        if (episodio.tomoMedicacion) "Sí" else "No"
-                    }"
-                )
-
-                Text(
-                    text = "Hubo alivio: ${
-                        if (episodio.alivio) "Sí" else "No"
-                    }"
-                )
+                if (episodio.tomoMedicacion) {
+                    Text("Tomó medicación: Sí")
+                    Text("Medicamento: ${episodio.medicamento ?: "-"}")
+                    Text("Dosis: ${episodio.dosis ?: "-"}")
+                    Text("Alivio: ${if (episodio.alivio) "Sí" else "No"}")
+                } else {
+                    Text("Tomó medicación: No")
+                }
 
                 if (episodio.nota.isNotBlank()) {
                     Text("Nota del paciente:")

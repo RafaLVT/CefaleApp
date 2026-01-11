@@ -27,6 +27,8 @@ class CalendarioDolorMedicoViewModel : ViewModel() {
                         sintomas = it.get("sintomas") as? List<String> ?: emptyList(),
                         tomoMedicacion = it.getBoolean("tomoMedicacion") ?: false,
                         alivio = it.getBoolean("alivio") ?: false,
+                        medicamento = it.getString("medicamento"),
+                        dosis = it.getString("dosis"),
                         nota = it.getString("nota") ?: "",
                         comentarioMedico = it.getString("comentarioMedico")
                     )
