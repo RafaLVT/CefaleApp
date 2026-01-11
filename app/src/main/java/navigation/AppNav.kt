@@ -1,5 +1,6 @@
 package com.gsti.cefaleapp.navigation
 
+import PantallaCitasMedico
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -106,7 +107,7 @@ fun AppNav() {
                     navController.navigate(Routes.PACIENTES_MEDICO)
                 },
                 onCitasClick = {
-                    // navController.navigate(Routes.CITAS_MEDICO) (más adelante)
+                    navController.navigate(Routes.CITAS_MEDICO)
                 }
             )
         }
@@ -196,6 +197,12 @@ fun AppNav() {
                 }
             )
         }
+
+        composable(Routes.CITAS_MEDICO) {
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+            PantallaCitasMedico(medicoId)
+        }
+
 
 
     }

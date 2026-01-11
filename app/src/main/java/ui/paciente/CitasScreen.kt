@@ -45,6 +45,7 @@ data class CitaUi(
     val id: String,
     val pacienteId: String,
     val fecha: String,
+    val fechaAsignada: String?,
     val motivo: String,
     val estado: String,
     val createdAt: Timestamp?
@@ -55,6 +56,7 @@ private fun DocumentSnapshot.toCitaUi(): CitaUi {
         id = id,
         pacienteId = getString("pacienteId") ?: "",
         fecha = getString("fecha") ?: "",
+        fechaAsignada = getString("fechaAsignada"),
         motivo = getString("motivo") ?: "",
         estado = getString("estado") ?: "pendiente",
         createdAt = getTimestamp("createdAt")
@@ -107,24 +109,53 @@ fun CitasScreen(navController: NavController) {
             return
         }
 
-        val data = hashMapOf(
-            "pacienteId" to pacienteId,
-            "fecha" to fecha.trim(),
-            "motivo" to m,
-            "estado" to "pendiente",
-            "createdAt" to Timestamp.now()
-        )
+        if (pacienteId == null) {
+            Toast.makeText(context, "Usuario no autenticado", Toast.LENGTH_SHORT).show()
+            return
+        }
 
-        db.collection("citas")
-            .add(data)
-            .addOnSuccessListener {
-                Toast.makeText(context, "✅ Cita solicitada", Toast.LENGTH_SHORT).show()
-                motivo = ""
+        // 🔹 1. Leer el médico asignado al paciente
+        db.collection("users")
+            .document(pacienteId)
+            .get()
+            .addOnSuccessListener { userDoc ->
+
+                val medicoId = userDoc.getString("medicoId")
+
+                if (medicoId.isNullOrBlank()) {
+                    Toast.makeText(
+                        context,
+                        "No tienes médico asignado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@addOnSuccessListener
+                }
+
+                // 🔹 2. Crear la cita con medicoId
+                val data = hashMapOf(
+                    "pacienteId" to pacienteId,
+                    "medicoId" to medicoId,          // 👈 CAMBIO CLAVE
+                    "fecha" to fecha.trim(),
+                    "motivo" to m,
+                    "estado" to "pendiente",
+                    "createdAt" to Timestamp.now()
+                )
+
+                db.collection("citas")
+                    .add(data)
+                    .addOnSuccessListener {
+                        Toast.makeText(context, "✅ Cita solicitada", Toast.LENGTH_SHORT).show()
+                        motivo = ""
+                    }
+                    .addOnFailureListener { e ->
+                        Toast.makeText(context, "❌ Error: ${e.message}", Toast.LENGTH_LONG).show()
+                    }
             }
             .addOnFailureListener { e ->
                 Toast.makeText(context, "❌ Error: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
+
 
     fun borrarCita(id: String) {
         db.collection("citas").document(id)
@@ -203,7 +234,12 @@ fun CitasScreen(navController: NavController) {
                 items(citas) { c ->
                     Card(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.padding(12.dp)) {
-                            Text("📅 ${c.fecha}   |   Estado: ${c.estado}")
+                            if (c.estado == "concertada" && c.fechaAsignada != null) {
+                                Text("📅 Cita: ${c.fechaAsignada}   |   Estado: ${c.estado}")
+                            } else {
+                                Text("📅 Solicitud: ${c.fecha}   |   Estado: ${c.estado}")
+                            }
+
                             Text("📝 Motivo: ${c.motivo}")
 
                             Spacer(Modifier.height(6.dp))
