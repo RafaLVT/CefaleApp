@@ -113,10 +113,10 @@ fun AppNav() {
         composable(Routes.PACIENTES_MEDICO) {
             val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
             val viewModel = remember { PacientesViewModel() }
-            val pacientes by viewModel.pacientesAsignados.collectAsState()
+            val pacientes by viewModel.pacientesOrdenados.collectAsState()
 
             LaunchedEffect(Unit) {
-                viewModel.cargarPacientesAsignados(medicoId)
+                viewModel.cargarPacientesPorGravedad(medicoId)
             }
 
             PantallaPacientesMedico(

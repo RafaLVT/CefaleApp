@@ -9,10 +9,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gsti.cefaleapp.medico.model.Paciente
+import com.gsti.cefaleapp.medico.model.PacienteConGravedad
 
 @Composable
 fun PantallaPacientesMedico(
-    pacientes: List<Paciente>,
+    pacientes: List<PacienteConGravedad>,
     onAsignarPacienteClick: () -> Unit,
     onPacienteClick: (String) -> Unit
 ) {
@@ -46,7 +47,10 @@ fun PantallaPacientesMedico(
             }
         } else {
             Column {
-                pacientes.forEach { paciente ->
+                pacientes.forEach { item ->
+                    val paciente = item.paciente
+                    val gravedad = item.gravedadMedia7d
+
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -59,6 +63,18 @@ fun PantallaPacientesMedico(
                         Text(
                             text = paciente.email,
                             style = MaterialTheme.typography.titleMedium
+                        )
+
+                        Spacer(modifier = Modifier.height(4.dp))
+
+                        Text(
+                            text = "Gravedad media (7 días): %.1f".format(gravedad),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = when {
+                                gravedad >= 2.5 -> MaterialTheme.colorScheme.error
+                                gravedad >= 1.5 -> MaterialTheme.colorScheme.tertiary
+                                else -> MaterialTheme.colorScheme.primary
+                            }
                         )
 
                         Spacer(modifier = Modifier.height(4.dp))
@@ -77,7 +93,6 @@ fun PantallaPacientesMedico(
                     HorizontalDivider()
                 }
             }
-
         }
     }
 }
