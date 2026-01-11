@@ -21,6 +21,8 @@ import androidx.compose.runtime.getValue
 import com.gsti.cefaleapp.medico.ui.PantallaAsignarPaciente
 import com.gsti.cefaleapp.medico.ui.PantallaDetallesPacienteMedico
 import com.gsti.cefaleapp.medico.ui.PantallaFormularioPacienteMedico
+import com.gsti.cefaleapp.medico.ui.PantallaCalendarioDolorMedico
+
 
 
 @Composable
@@ -140,11 +142,27 @@ fun AppNav() {
                 onEditarFormularioClick = { id ->
                     navController.navigate("${Routes.FORMULARIO_PACIENTE_MEDICO}/$id")
                 },
-                onAntecedentesClick = { /* más adelante */ },
-                onCalendarioClick = { /* más adelante */ },
+                onAntecedentesClick = { /* no nos corresponde, se debe updatear con datos de la clinica/hospital */ },
+                onCalendarioClick = { id ->
+                    navController.navigate("${Routes.CALENDARIO_DOLOR_MEDICO}/$id")
+                },
                 onChatClick = { /* más adelante */ }
             )
         }
+
+        composable(
+            route = "${Routes.CALENDARIO_DOLOR_MEDICO}/{pacienteId}"
+        ) { backStackEntry ->
+
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")
+                ?: return@composable
+
+            PantallaCalendarioDolorMedico(
+                pacienteId = pacienteId,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
 
         composable(
             route = "${Routes.FORMULARIO_PACIENTE_MEDICO}/{pacienteId}"

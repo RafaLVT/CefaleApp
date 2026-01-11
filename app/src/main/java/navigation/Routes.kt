@@ -23,4 +23,7 @@ object Routes {
 
 
     const val ESPERA_ASIGNACION = "espera_asignacion"
+
+    const val CALENDARIO_DOLOR_MEDICO = "calendario_dolor_medico"
+
 }
