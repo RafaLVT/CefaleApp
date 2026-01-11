@@ -1,5 +1,7 @@
 package com.gsti.cefaleapp.navigation
 
+import ChatScreen
+import PantallaCitasMedico
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,6 +23,8 @@ import androidx.compose.runtime.getValue
 import com.gsti.cefaleapp.medico.ui.PantallaAsignarPaciente
 import com.gsti.cefaleapp.medico.ui.PantallaDetallesPacienteMedico
 import com.gsti.cefaleapp.medico.ui.PantallaFormularioPacienteMedico
+import com.gsti.cefaleapp.medico.ui.PantallaCalendarioDolorMedico
+import com.gsti.cefaleapp.medico.ui.PantallaChatMedico
 
 
 @Composable
@@ -85,7 +89,6 @@ fun AppNav() {
             HomePacienteScreen(
                 goEpisodio = { navController.navigate(Routes.EPISODIO) },
                 goCalendario = { navController.navigate(Routes.CALENDARIO) },
-                goMedicacion = { navController.navigate(Routes.MEDICACION) },
                 goCitas = { navController.navigate(Routes.CITAS) },
                 goChat = { navController.navigate(Routes.CHAT) }
             )
@@ -93,7 +96,6 @@ fun AppNav() {
 
         composable(Routes.EPISODIO) { EpisodioScreen(navController) }
         composable(Routes.CALENDARIO) { CalendarioScreen(navController) }
-        composable(Routes.MEDICACION) { MedicacionScreen(navController) }
         composable(Routes.CITAS) { CitasScreen(navController) }
         composable(Routes.CHAT) { ChatScreen(navController) }
 
@@ -104,17 +106,17 @@ fun AppNav() {
                     navController.navigate(Routes.PACIENTES_MEDICO)
                 },
                 onCitasClick = {
-                    // navController.navigate(Routes.CITAS_MEDICO) (más adelante)
+                    navController.navigate(Routes.CITAS_MEDICO)
                 }
             )
         }
         composable(Routes.PACIENTES_MEDICO) {
             val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
             val viewModel = remember { PacientesViewModel() }
-            val pacientes by viewModel.pacientesAsignados.collectAsState()
+            val pacientes by viewModel.pacientesOrdenados.collectAsState()
 
             LaunchedEffect(Unit) {
-                viewModel.cargarPacientesAsignados(medicoId)
+                viewModel.cargarPacientesPorGravedad(medicoId)
             }
 
             PantallaPacientesMedico(
@@ -140,12 +142,29 @@ fun AppNav() {
                 onEditarFormularioClick = { id ->
                     navController.navigate("${Routes.FORMULARIO_PACIENTE_MEDICO}/$id")
                 },
-                onAntecedentesClick = { /* más adelante */ },
-                onInformeClick = { /* más adelante */ },
-                onCalendarioClick = { /* más adelante */ },
-                onChatClick = { /* más adelante */ }
+                onAntecedentesClick = { /* no nos corresponde, se debe updatear con datos de la clinica/hospital */ },
+                onCalendarioClick = { id ->
+                    navController.navigate("${Routes.CALENDARIO_DOLOR_MEDICO}/$id")
+                },
+                onChatClick = { id ->
+                    navController.navigate("${Routes.CHAT_MEDICO}/$id")
+                }
             )
         }
+
+        composable(
+            route = "${Routes.CALENDARIO_DOLOR_MEDICO}/{pacienteId}"
+        ) { backStackEntry ->
+
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")
+                ?: return@composable
+
+            PantallaCalendarioDolorMedico(
+                pacienteId = pacienteId,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
 
         composable(
             route = "${Routes.FORMULARIO_PACIENTE_MEDICO}/{pacienteId}"
@@ -179,6 +198,30 @@ fun AppNav() {
                 }
             )
         }
+
+        composable(Routes.CITAS_MEDICO) {
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+            PantallaCitasMedico(medicoId)
+        }
+
+        composable("${Routes.CHAT_MEDICO}/{pacienteId}") { backStackEntry ->
+            val pacienteId = backStackEntry.arguments?.getString("pacienteId")
+                ?: return@composable
+
+            val medicoId = FirebaseAuth.getInstance().currentUser!!.uid
+
+            PantallaChatMedico(
+                navController = navController,
+                medicoId = medicoId,
+                pacienteId = pacienteId
+            )
+        }
+
+
+
+
+
+
 
 
     }
