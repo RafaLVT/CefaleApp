@@ -63,7 +63,6 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
 
 
-    // ✅ Navigation Compose (para que los botones naveguen a pantallas)
     implementation("androidx.navigation:navigation-compose:2.8.0")
     implementation(libs.androidx.ui)
 

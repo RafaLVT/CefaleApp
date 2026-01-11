@@ -73,7 +73,7 @@ fun ChatScreen(
     var cargando by remember { mutableStateOf(true) }
     var error by remember { mutableStateOf<String?>(null) }
 
-    // 🔹 1. Cargar medicoId del paciente
+
     LaunchedEffect(pacienteId) {
         if (pacienteId == null) return@LaunchedEffect
 
@@ -90,7 +90,7 @@ fun ChatScreen(
             }
     }
 
-    // 🔹 2. Hasta que no haya medicoId, no seguimos
+
     if (medicoId == null) {
         Column(
             modifier = Modifier
@@ -115,7 +115,7 @@ fun ChatScreen(
     val chatId = "${medicoId}_${pacienteId}"
 
 
-    // 🔹 3. Listener depende de chatId
+
     DisposableEffect(chatId) {
         val reg = db.collection("chats")
             .document(chatId)

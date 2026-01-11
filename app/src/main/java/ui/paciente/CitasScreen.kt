@@ -114,7 +114,7 @@ fun CitasScreen(navController: NavController) {
             return
         }
 
-        // 🔹 1. Leer el médico asignado al paciente
+
         db.collection("users")
             .document(pacienteId)
             .get()
@@ -131,7 +131,7 @@ fun CitasScreen(navController: NavController) {
                     return@addOnSuccessListener
                 }
 
-                // 🔹 2. Crear la cita con medicoId
+
                 val data = hashMapOf(
                     "pacienteId" to pacienteId,
                     "medicoId" to medicoId,          // 👈 CAMBIO CLAVE

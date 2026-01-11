@@ -43,7 +43,7 @@ fun PantallaCalendarioDolorMedico(
         .statusBarsPadding()
         .padding(horizontal = 16.dp, vertical = 12.dp)) {
 
-        // 🔹 CABECERA
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,7 +80,7 @@ fun PantallaCalendarioDolorMedico(
 
         Spacer(Modifier.height(16.dp))
 
-        // 🔹 DÍAS DE LA SEMANA
+
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             listOf("L", "M", "X", "J", "V", "S", "D").forEach {
                 Text(it, modifier = Modifier.weight(1f), textAlign = androidx.compose.ui.text.style.TextAlign.Center)
@@ -89,7 +89,7 @@ fun PantallaCalendarioDolorMedico(
 
         Spacer(Modifier.height(8.dp))
 
-        // 🔹 CALENDARIO
+        //calen
         semanas.forEach { semana ->
             Row(
                 modifier = Modifier.fillMaxWidth(),

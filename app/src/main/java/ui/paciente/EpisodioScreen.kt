@@ -53,7 +53,7 @@ fun EpisodioScreen(navController: NavController) {
     val pacienteId = FirebaseAuth.getInstance().currentUser?.uid
     val db = Firebase.firestore
 
-    // ✅ Fecha compatible con minSdk 24
+
     val hoy = remember {
         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Date())
     }
@@ -256,7 +256,7 @@ fun EpisodioScreen(navController: NavController) {
                             guardando.value = false
                             Toast.makeText(context, "✅ Guardado en Firestore: ${doc.id}", Toast.LENGTH_LONG).show()
 
-                            // (Opcional) limpiar formulario
+
                             // intensidad.value = 0
                             // duracionMin.value = ""
                             // nota.value = ""

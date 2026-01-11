@@ -2,7 +2,7 @@ package com.gsti.cefaleapp.medico.model
 
 data class EpisodioCalendario(
     val id: String,
-    val fecha: String,            // yyyy-MM-dd
+    val fecha: String,
     val intensidad: Int,
     val duracionMin: Int,
     val sintomas: List<String>,

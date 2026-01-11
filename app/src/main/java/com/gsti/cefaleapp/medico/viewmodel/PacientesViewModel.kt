@@ -13,11 +13,11 @@ class PacientesViewModel : ViewModel() {
 
     private val db = FirebaseFirestore.getInstance()
 
-    // 🔹 Pacientes SIN médico (para asignar)
+
     private val _pacientesSinMedico = MutableStateFlow<List<Paciente>>(emptyList())
     val pacientesSinMedico: StateFlow<List<Paciente>> = _pacientesSinMedico
 
-    // 🔹 Pacientes ASIGNADOS al médico
+
     private val _pacientesAsignados = MutableStateFlow<List<Paciente>>(emptyList())
     val pacientesAsignados: StateFlow<List<Paciente>> = _pacientesAsignados
 
@@ -25,9 +25,6 @@ class PacientesViewModel : ViewModel() {
     val pacientesOrdenados: StateFlow<List<PacienteConGravedad>> = _pacientesOrdenados
 
 
-    // ===============================
-    // 📥 CARGAS
-    // ===============================
 
     fun cargarPacientesSinMedico() {
         db.collection("users")
@@ -125,9 +122,6 @@ class PacientesViewModel : ViewModel() {
 
 
 
-    // ===============================
-    // 🔗 ASIGNACIÓN
-    // ===============================
 
     fun asignarPaciente(pacienteId: String, medicoId: String) {
         db.collection("users")

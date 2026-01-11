@@ -18,7 +18,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-// 🔹 Modelo UI
+
 data class MsgUi(
     val id: String,
     val from: String,
@@ -41,7 +41,7 @@ fun PantallaChatMedico(
     var msgText by remember { mutableStateOf("") }
     var error by remember { mutableStateOf<String?>(null) }
 
-    // 🔹 Listener tiempo real
+
     DisposableEffect(chatId) {
         val reg = db.collection("chats")
             .document(chatId)

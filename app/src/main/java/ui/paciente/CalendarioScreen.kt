@@ -109,7 +109,7 @@ fun CalendarioScreen(navController: NavController) {
     var error by remember { mutableStateOf<String?>(null) }
     var episodios by remember { mutableStateOf<List<EpisodioUi>>(emptyList()) }
 
-    // 🔥 Listener en tiempo real (cada vez que cambie Firestore o cambie la fecha)
+
     DisposableEffect(fechaSeleccionada, verTodos) {
         cargando = true
         error = null
@@ -163,7 +163,7 @@ fun CalendarioScreen(navController: NavController) {
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            // Selector simple de fecha
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,

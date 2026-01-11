@@ -36,7 +36,6 @@ fun AppNav() {
         startDestination = Routes.LOGIN
     ) {
 
-        // 🔐 LOGIN
         composable(Routes.LOGIN) {
             LoginScreen(
                 onLoginSuccess = { navController.navigate(Routes.DECIDE_HOME) },
@@ -44,14 +43,13 @@ fun AppNav() {
             )
         }
 
-        // 📝 REGISTER
         composable(Routes.REGISTER) {
             RegisterScreen(
                 onRegisterSuccess = { navController.navigate(Routes.DECIDE_HOME) }
             )
         }
 
-        // 🔀 DECIDE SEGÚN ROL
+        // decide rol
         composable(Routes.DECIDE_HOME) {
             val uid = FirebaseAuth.getInstance().currentUser!!.uid
             val db = FirebaseFirestore.getInstance()
@@ -84,7 +82,7 @@ fun AppNav() {
         }
 
 
-        // 👤 HOME PACIENTE (LO QUE YA TENÍAS)
+
         composable(Routes.HOME_PACIENTE) {
             HomePacienteScreen(
                 goEpisodio = { navController.navigate(Routes.EPISODIO) },
@@ -99,7 +97,7 @@ fun AppNav() {
         composable(Routes.CITAS) { CitasScreen(navController) }
         composable(Routes.CHAT) { ChatScreen(navController) }
 
-        // 👨‍⚕️ HOME MÉDICO (placeholder por ahora)
+
         composable(Routes.HOME_MEDICO) {
             PantallaPrincipalMedico(
                 onPacientesClick = {
